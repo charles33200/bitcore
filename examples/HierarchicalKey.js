@@ -1,5 +1,5 @@
 var run = function() {
-  bitcore = typeof(bitcore) === 'undefined' ? require('../bitcore') : bitcore;
+  bitcore = typeof (bitcore) === 'undefined' ? require('../bitcore') : bitcore;
   var HierarchicalKey = bitcore.HierarchicalKey;
   var Address = bitcore.Address;
   var networks = bitcore.networks;
@@ -10,7 +10,7 @@ var run = function() {
   console.log('https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki\n');
   console.log('1) Make new hkey from randomly generated new seed');
 
-  var randomBytes = crypto.randomBytes(32);
+  var randomBytes = crypto.randomBytes(256);
   var hkey = HierarchicalKey.seed(randomBytes);
   console.log('master extended private key: ' + hkey.extendedPrivateKeyString());
   console.log('master extended public key: ' + hkey.extendedPublicKeyString());
@@ -57,16 +57,16 @@ var run = function() {
   console.log('6) Make a bunch of new addresses from known public key');
   var knownPublicKey = 'xpub6CZei1p2zk68UwkcBDqzRonLHJWAiPZZ58sMgHJAn9fmpmnPayVEAvAs3XvTSUMZ1J8dNaxnv4wnt7YpRKr6BsqeWbW8msqeuuhiSzsQEC3';
   var hkey = new HierarchicalKey(knownPublicKey);
-  console.log('m/0 address: ' + Address.fromPubKey(hkey.derive('m/0').eckey.public).toString());
+  console.log('m/0 address: ' + new Address(networks['livenet'].addressVersion, hkey.derive('m/0').eckey.public).toString());
   //console.log('m/1 extended public key: ' + hkey.derive('m/1').extendedPublicKeyString());
-  console.log('m/1 address: ' + Address.fromPubKey(hkey.derive('m/1').eckey.public).toString());
+  console.log('m/1 address: ' + new Address(networks['livenet'].addressVersion, hkey.derive('m/1').eckey.public).toString());
   //console.log('m/2 extended public key: ' + hkey.derive('m/2').extendedPublicKeyString());
-  console.log('m/2 address: ' + Address.fromPubKey(hkey.derive('m/2').eckey.public).toString());
+  console.log('m/2 address: ' + new Address(networks['livenet'].addressVersion, hkey.derive('m/2').eckey.public).toString());
   //console.log('m/3 extended public key: ' + hkey.derive('m/3').extendedPublicKeyString());
-  console.log('m/3 address: ' + Address.fromPubKey(hkey.derive('m/3').eckey.public).toString());
+  console.log('m/3 address: ' + new Address(networks['livenet'].addressVersion, hkey.derive('m/3').eckey.public).toString());
   console.log('...');
   //console.log('m/100 extended public key: ' + hkey.derive('m/100').extendedPublicKeyString());
-  console.log('m/100 address: ' + Address.fromPubKey(hkey.derive('m/100').eckey.public).toString());
+  console.log('m/100 address: ' + new Address(networks['livenet'].addressVersion, hkey.derive('m/100').eckey.public).toString());
   console.log();
 
 };

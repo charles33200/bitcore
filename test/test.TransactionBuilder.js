@@ -7,7 +7,6 @@ var bitcore = bitcore || require('../bitcore');
 var should = chai.should();
 
 var TransactionBuilder = bitcore.TransactionBuilder;
-var Address = bitcore.Address;
 var WalletKey = bitcore.WalletKey;
 var Script = bitcore.Script;
 var util = bitcore.util;
@@ -19,6 +18,8 @@ var vopts =  {
   verifyP2SH: true,
   dontVerifyStrictEnc: true
 };
+
+
 
 describe('TransactionBuilder', function() {
   it('should initialze the main object', function() {
@@ -39,10 +40,6 @@ describe('TransactionBuilder', function() {
     t.lockTime.should.equal(10);
   });
 
-  it('should be a fee in satoshi', function() {
-    var satoshi = TransactionBuilder.FEE_PER_1000B_SAT;
-    satoshi.should.equal(10000);
-  });
 
   var getBuilder = function (spendUnconfirmed) {
     var t = new TransactionBuilder({spendUnconfirmed: spendUnconfirmed})
@@ -819,7 +816,7 @@ describe('TransactionBuilder', function() {
     }];
     //info.scriptBufHex,
 
-    var s =  new Address(info.address).getScriptPubKey()
+    var s =  TransactionBuilder.scriptForAddress(info.address)
                             .getBuffer().toString('hex');
 
     var b =  new TransactionBuilder(opts)

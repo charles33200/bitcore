@@ -1,3 +1,4 @@
+
 /**
  * Used during transcation verification when a source txout is missing.
  *
@@ -8,8 +9,8 @@ function MissingSourceError(msg, missingTxHash) {
   // TODO: Since this happens in normal operation, perhaps we should
   //       avoid generating a whole stack trace.
   Error.call(this);
-  // This is not compatible with firefox.
-  //  Error.captureStackTrace(this, arguments.callee);
+// This is not compatible with firefox.
+//  Error.captureStackTrace(this, arguments.callee);
   this.message = msg;
   this.missingTxHash = missingTxHash;
   this.name = 'MissingSourceError';
@@ -31,8 +32,8 @@ function VerificationError(msg, missingTxHash) {
   //       avoid generating a whole stack trace.
   Error.call(this);
 
-  // This is not compatible with firefox.
-  //  Error.captureStackTrace(this, arguments.callee);
+// This is not compatible with firefox.
+//  Error.captureStackTrace(this, arguments.callee);
   this.message = msg;
   this.missingTxHash = missingTxHash;
   this.name = 'VerificationError';

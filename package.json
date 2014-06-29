@@ -1,7 +1,7 @@
 {
   "name": "bitcore",
   "description": "Bitcoin Library",
-  "version": "0.1.24",
+  "version": "0.1.21",
   "author": {
     "name": "Stephen Pair",
     "email": "stephen@bitpay.com"
@@ -47,21 +47,12 @@
   },
   "scripts": {
     "install": "node-gyp rebuild",
-    "test": "node browser/build.js -a && node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "mocha test -R spec",
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --reporter spec test",
-    "prepublish": "node browser/build.js -m"
+    "prepublish": "node browser/build.js -a"
   },
   "dependencies": {
-    "grunt-browserify": "~2.0.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-markdown": "~0.5.0",
-    "grunt-mocha-test": "~0.8.2",
-    "grunt-shell": "~0.6.4",    
-    "coveralls": "^2.10.0",
-    "istanbul": "~0.2.6",
-    "commander": "~2.2.0",
-    "mocha": ">=1.15.1",
-    "sjcl": "=1.0.1",
+    "jssha": "=1.5.0",
     "soop": "=0.1.5",
     "bindings": "=1.1.1",
     "bufferput": "git://github.com/bitpay/node-bufferput.git",
@@ -72,12 +63,26 @@
     "buffertools": "=2.1.2",
     "browserify": "=3.40.0",
     "browser-pack": "=2.0.1",
+    "commander": "=2.1.0",
     "browserify-buffertools": "git://github.com/maraoz/browserify-buffertools.git",
     "socks5-client": "~0.3.6",
     "brfs": "=1.0.0",
     "chai": "=1.9.1",
     "uglifyify": "=1.2.3",
-    "async": "~0.2.10"
+    "async": "~0.2.10",
+    "underscore": "~1.6.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-mocha-test": "~0.8.2",
+    "grunt-shell": "~0.6.4",
+    "grunt-browserify": "~2.0.0",
+    "grunt-markdown": "~0.5.0",
+    "mocha": ">=1.15.1",
+    "brfs": "~1.0.0",
+    "commander": "~2.1.0",
+    "browser-pack": "~2.0.1",
+    "istanbul": "~0.2.6"
   },
   "testling": {
     "harness": "mocha-bdd",
@@ -97,7 +102,6 @@
     "bignum": "./lib/browser/Bignum.js",
     "./lib/Key.js": "./lib/browser/Key.js",
     "./lib/Point.js": "./lib/browser/Point.js",
-    "./lib/ECIES.js": "./lib/browser/ECIES.js",
     "./lib/SecureRandom.js": "./lib/browser/SecureRandom.js"
   },
   "license": "MIT",

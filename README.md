@@ -2,7 +2,6 @@ Bitcore
 =======
 
 [![Build Status](https://travis-ci.org/bitpay/bitcore.svg?branch=master)](https://travis-ci.org/bitpay/bitcore)
-[![Coverage Status](https://img.shields.io/coveralls/bitpay/bitcore.svg)](https://coveralls.io/r/bitpay/bitcore)
 
 A pure, powerful core for your bitcoin project.
 
@@ -102,7 +101,7 @@ For this example you need a running bitcoind instance.
   peerman.start();
 ```
 
-PeerManager will emit the following events: 'version', 'verack', 'addr', 'getaddr', 'error' 'disconnect'; and will relay events like: 'tx', 'block', 'inv'. Please see  [PeerManager.js](lib/PeerManager.js), [Peer.js](lib/Peer.js) and [Connection.js](lib/Connection.js)
+PeerManager will emit the following events: 'version', 'verack', 'addr', 'getaddr', 'error' 'disconnect'; and will relay events like: 'tx', 'block', 'inv'. Please see  [PeerManager.js](PeerManager.js), [Peer.js](Peer.js) and [Connection.js](Connection.js)
 
 ## Consuming bitcoind RPC
 
@@ -331,18 +330,6 @@ From example/simple.html
 You can check a more complex usage example at examples/example.html.
 
 ## Generating a customized browser bundle
-
-To build the main bitcore bundle, run:
-
-```
-node browser/build.js -m
-```
-
-To build all features into the bitcore bundle (which will lead to a large filesize), run:
-
-```
-node browser/build.js -a
-```
 
 To generate a customized bitcore bundle, you can specify which submodules you want to include in it with the -s option:
 

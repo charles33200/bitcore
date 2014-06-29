@@ -3,7 +3,7 @@ var bignum = require('bignum');
 var Binary = require('binary');
 var Put = require('bufferput');
 var buffertools = require('buffertools');
-var sjcl = require('../lib/sjcl');
+var jssha = require('jssha');
 var browser;
 var inBrowser = !process.versions;
 if (inBrowser) {
@@ -14,34 +14,19 @@ var sha256 = exports.sha256 = function(data) {
   return new Buffer(crypto.createHash('sha256').update(data).digest('binary'), 'binary');
 };
 
-var sha512 = exports.sha512 = function(data) {
+var sha512hmac = exports.sha512hmac = function (data, key) {
   if (inBrowser) {
-    var datahex = data.toString('hex');
-    var databits = sjcl.codec.hex.toBits(datahex);
-    var hashbits = sjcl.hash.sha512.hash(databits);
-    var hashhex = sjcl.codec.hex.fromBits(hashbits);
-    var hash = new Buffer(hashhex, 'hex');
+    var j = new jssha(data.toString('hex'), 'HEX');
+    var hash = j.getHMAC(key.toString('hex'), "HEX", "SHA-512", "HEX");
+    hash = new Buffer(hash, 'hex');
     return hash;
-  };
-  return new Buffer(crypto.createHash('sha512').update(data).digest('binary'), 'binary');
-};
-
-var sha512hmac = exports.sha512hmac = function(data, key) {
-  if (inBrowser) {
-    var skey = sjcl.codec.hex.toBits(key.toString('hex'));
-    var sdata = sjcl.codec.hex.toBits(data.toString('hex'));
-    var hmac = new sjcl.misc.hmac(skey, sjcl.hash.sha512);
-    var encrypted = hmac.encrypt(sdata);
-    var enchex = sjcl.codec.hex.fromBits(encrypted);
-    var encbuf = new Buffer(enchex, 'hex');
-    return encbuf;
   };
   var hmac = crypto.createHmac('sha512', key);
   var hash = hmac.update(data).digest();
   return hash;
 };
 
-var ripe160 = exports.ripe160 = function(data) {
+var ripe160 = exports.ripe160 = function (data) {
   if (!Buffer.isBuffer(data)) {
     throw new Error('arg should be a buffer');
   }
@@ -360,12 +345,12 @@ var decodeDiffBits = exports.decodeDiffBits = function(diffBits, asBigInt) {
 
   var target = bignum(diffBits & 0xffffff);
   /*
-   * shiftLeft is not implemented on the bignum browser
+   * shiftLeft is not implemented on the bignum browser 
    *
    * target = target.shiftLeft(8*((diffBits >>> 24) - 3));
    */
 
-  var mov = 8 * ((diffBits >>> 24) - 3);
+  var mov = 8*((diffBits >>> 24) - 3);
   while (mov-- > 0)
     target = target.mul(2);
 
@@ -493,6 +478,5 @@ exports.INT64_MAX = INT64_MAX;
 // How much of Bitcoin's internal integer coin representation
 // makes 1 BTC
 exports.COIN = 100000000;
-exports.BIT = 100;
 
 var MAX_TARGET = exports.MAX_TARGET = new Buffer('00000000FFFF0000000000000000000000000000000000000000000000000000', 'hex');

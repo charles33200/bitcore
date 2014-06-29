@@ -4,7 +4,6 @@ var chai = chai || require('chai');
 var bitcore = bitcore || require('../bitcore');
 
 var should = chai.should();
-var expect = chai.expect;
 
 var Address = bitcore.Address;
 var Key = bitcore.Key;
@@ -80,27 +79,6 @@ describe('Address', function() {
     new Address('2NBSBcf2KfjPEEqVusmrWdmUeNHRiUTS3Li').isScript().should.equal(true);
   });
 
-  describe('#Address constructor', function() {
-    it('should produce a valid address from a hash', function() {
-      var privkey = bitcore.util.sha256('test');
-      var key = new bitcore.Key();
-      key.private = privkey;
-      key.regenerateSync();
-      var hash = bitcore.util.sha256ripe160(key.public);
-      var addr = new bitcore.Address(0, hash);
-      addr.isValid().should.equal(true);
-    });
-
-    it('should throw an error if you try to use a public key instead of a hash', function() {
-      var privkey = bitcore.util.sha256('test');
-      var key = new bitcore.Key();
-      key.private = privkey;
-      key.regenerateSync();
-      var f = function() {new bitcore.Address(0, key.public);};
-      expect(f).to.throw(Error);
-    });
-  });
-
   describe('#fromPubKey', function() {
     it('should make pubkeyhash address from an uncompressed public key', function() {
       var pubkey = new Buffer('04fa05ce8b25010cb6e17a30e0b66668bf083c40687547748ec330ee77adf53a42abd3d26148cbacfcf79c907ddefeb2c37f8bebc0a695ba79d634449d871de218', 'hex');
@@ -174,22 +152,6 @@ describe('Address', function() {
     });
   });
 
-  describe('#getScriptPubKey', function() {
-    var data = [
-      ['76a91423b7530a00dd7951e11791c529389421c0b8d83b88ac', 'mimoZNLcP2rrMRgdeX5PSnR7AjCqQveZZ4'],
-      ['a9147049be48e74a660157da3ed64569981592f7fa0587','2N3Ux1YTnt1ixofYvJfaabqZSj2MBF3jsmv'],
-      ['76a914774e603bafb717bd3f070e68bbcccfd907c77d1388ac', 'mrPnbY1yKDBsdgbHbS7kJ8GVm8F66hWHLE'],
-      ['76a914b00127584485a7cff0949ef0f6bc5575f06ce00d88ac', 'mwZabyZXg8JzUtFX1pkGygsMJjnuqiNhgd']
-    ];
-
-    it('validate scriptPubKey for a given address', function() {
-      for(var i in data) {
-          var d = data[i];
-          var b = new Address(d[1]).getScriptPubKey().getBuffer();
-          b.toString('hex').should.equal(d[0]);
-      }
-    });
-  });
 
   describe('#fromScriptPubKey', function() {
 

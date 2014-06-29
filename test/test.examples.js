@@ -7,7 +7,6 @@ var unmute = require('./mute').unmute;
 
 var examples = [
   'Address',
-  'ECIES',
   'HierarchicalKey',
   'PeerManager',
   'Rpc',

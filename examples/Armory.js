@@ -63,3 +63,4 @@ for (var i = 0; i < 5; i++) {
   console.log(Address.fromPubKey(b.pubkey).as('base58'));
   b = b.next();
 }
+
